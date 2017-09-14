@@ -1,8 +1,14 @@
 package com.example.sss.news;
 
+import android.app.ProgressDialog;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -14,19 +20,29 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.lang.*;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     RequestQueue queue;
     ArrayList<newsData> dataArrayList;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        ActionBar bar = getSupportActionBar();
+        bar.hide();
         dataArrayList = new ArrayList<>();
         queue = Volley.newRequestQueue(getApplicationContext());
         getData();
@@ -36,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getData(){
 
-        String url ="https://newsapi.org/v1/articles?source=techcrunch&apiKey=d40a9cfd65f248678a9baa790e387fdc";
+        String url ="https://newsapi.org/v1/articles?source=fortune&sortBy=latest&apiKey=d40a9cfd65f248678a9baa790e387fdc";
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -61,10 +77,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d("data",response);
         try {
             JSONObject obj = new JSONObject(response);
+            String publisher = obj.getString("source");
             JSONArray dataArray = obj.getJSONArray("articles");
             for (int i = 0; i < dataArray.length();i++){
                 JSONObject newsObj = dataArray.getJSONObject(i);
-                dataArrayList.add(new newsData(newsObj.getString("author"), newsObj.getString("title"), newsObj.getString("description"),newsObj.getString("url"),newsObj.getString("urlToImage"), newsObj.getString("publishedAt")));
+                dataArrayList.add(new newsData(newsObj.getString("author"), newsObj.getString("title"), newsObj.getString("description"),newsObj.getString("url"),newsObj.getString("urlToImage"), newsObj.getString("publishedAt"), publisher));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -76,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initSwipePager(ArrayList<newsData> data){
         VerticalViewPager verticalViewPager = (VerticalViewPager) findViewById(R.id.vPager);
+        progressBar.setVisibility(View.GONE);
         verticalViewPager.setAdapter(new VerticlePagerAdapter(this, data));
     }
 
