@@ -1,6 +1,9 @@
 package com.example.sss.news;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,11 +32,15 @@ public class MainActivity extends AppCompatActivity {
     RequestQueue queue;
     ArrayList<newsData> dataArrayList;
     ProgressBar progressBar;
+    ConnectivityManager connectivityManager;
+    NetworkInfo networkInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        connectivityManager = (ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE);
+        networkInfo = connectivityManager.getActiveNetworkInfo();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -45,14 +53,21 @@ public class MainActivity extends AppCompatActivity {
         bar.hide();
         dataArrayList = new ArrayList<>();
         queue = Volley.newRequestQueue(getApplicationContext());
-        getData();
 
+        if (networkInfo != null && networkInfo.isConnected())
+            getData();
+        else {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(this, "No Internet connection", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, noInternetActivity.class);
+            startActivity(intent);
+        }
         //initSwipePager();
     }
 
     private void getData(){
 
-        String url ="https://newsapi.org/v1/articles?source=fortune&sortBy=latest&apiKey=d40a9cfd65f248678a9baa790e387fdc";
+        String url ="https://newsapi.org/v1/articles?source=the-times-of-india&sortBy=top&apiKey=d40a9cfd65f248678a9baa790e387fdc";
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
