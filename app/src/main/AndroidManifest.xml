@@ -22,7 +22,8 @@
         <activity
             android:name=".newsBrowser"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".noInternetActivity"></activity>
+        <activity android:name=".noInternetActivity" />
+        <activity android:name=".categoryActivity"></activity>
     </application>
 
 </manifest>
