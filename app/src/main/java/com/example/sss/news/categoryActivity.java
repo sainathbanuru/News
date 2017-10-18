@@ -3,10 +3,13 @@ package com.example.sss.news;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.Window;
 import android.view.WindowManager;
 
 public class categoryActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,5 +22,9 @@ public class categoryActivity extends AppCompatActivity {
 
         ActionBar bar = getSupportActionBar();
         bar.hide();
+
+
+
+
     }
 }

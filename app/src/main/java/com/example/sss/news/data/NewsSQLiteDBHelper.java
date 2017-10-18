@@ -16,11 +16,13 @@ public class NewsSQLiteDBHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + NewsContract.newsData.TABLE_NAME + " (" +
             NewsContract.newsData.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            NewsContract.newsData.COLUMN_TITLE + " TEXT NOT NULL," +
-            NewsContract.newsData.COLUMN_DESCRIPTION + " TEXT NOT NULL," +
-            NewsContract.newsData.COLUMN_PUBLISHER + " TEXT NOT NULL," +
-            NewsContract.newsData.COLUMN_URL2IMAGE + " TEXT NOT NULL," +
-            NewsContract.newsData.COLUMN_URL + " TEXT NOT NULL)";
+            NewsContract.newsData.COLUMN_TITLE + " TEXT NOT NULL, " +
+            NewsContract.newsData.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
+            NewsContract.newsData.COLUMN_PUBLISHER + " TEXT NOT NULL, " +
+            NewsContract.newsData.COLUMN_URL2IMAGE + " TEXT NOT NULL, " +
+            NewsContract.newsData.COLUMN_URL + " TEXT NOT NULL, " +
+            " UNIQUE (" + NewsContract.newsData.COLUMN_TITLE + ", " +
+            NewsContract.newsData.COLUMN_URL + ") ON CONFLICT REPLACE);";
 
 
     private static final String SQL_DELETE_ENTRIES =  "DROP TABLE IF EXISTS " + NewsContract.newsData.TABLE_NAME;
