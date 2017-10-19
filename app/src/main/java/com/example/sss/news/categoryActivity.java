@@ -18,6 +18,7 @@ public class categoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArrayList<categoryItems> itemsInCategory;
+    private categoryAdapter adapter;
 
 
     @Override
@@ -37,7 +38,12 @@ public class categoryActivity extends AppCompatActivity {
         itemsInCategory.add(new categoryItems("Music", R.drawable.music));
         itemsInCategory.add(new categoryItems("Sports", R.drawable.sports));
         itemsInCategory.add(new categoryItems("Technology", R.drawable.tech));
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+
+        adapter = new categoryAdapter(this, itemsInCategory);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(5), false));
+        recyclerView.setAdapter(adapter);
 
     }
 

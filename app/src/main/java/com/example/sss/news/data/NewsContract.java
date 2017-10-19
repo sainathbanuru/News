@@ -24,4 +24,14 @@ public final class NewsContract {
 
 
     }
+
+
+    public static abstract class sourceData implements BaseColumns   {
+
+        public static final String TABLE_NAME = "sources";
+        public static final String COLUMN_ID = "_id";
+        public static final String COLUMN_NEWS_ID = "news_id";
+        public static final String COLUMN_TITLE = "title";
+
+    }
 }

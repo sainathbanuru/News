@@ -8,11 +8,44 @@
     tools:context="com.example.sss.news.categoryActivity">
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="10dp">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:layout_below="@+id/inputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="25dp"
+            >
+            <TextView
+                android:id="@+id/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SAVE"
+                android:textColor="#fff"
+                android:background="@drawable/border"
+                android:padding="15dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginRight="10dp"
+                android:textStyle="bold"
+                android:onClick="checkLogin"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 </LinearLayout>

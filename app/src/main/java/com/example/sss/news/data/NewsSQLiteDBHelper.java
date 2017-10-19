@@ -24,8 +24,16 @@ public class NewsSQLiteDBHelper extends SQLiteOpenHelper {
             " UNIQUE (" + NewsContract.newsData.COLUMN_TITLE + ", " +
             NewsContract.newsData.COLUMN_URL + ") ON CONFLICT REPLACE);";
 
+    private static final String SQL_SOURCE_CREATE_ENTRIES = "CREATE TABLE " + NewsContract.sourceData.TABLE_NAME + " (" +
+            NewsContract.sourceData.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            NewsContract.sourceData.COLUMN_NEWS_ID + " TEXT NOT NULL," +
+            NewsContract.sourceData.COLUMN_TITLE + " TEXT NOT NULL, " +
+            " UNIQUE (" + NewsContract.sourceData.COLUMN_NEWS_ID + ", " +
+            NewsContract.sourceData.COLUMN_TITLE + ") ON CONFLICT REPLACE);";
+
 
     private static final String SQL_DELETE_ENTRIES =  "DROP TABLE IF EXISTS " + NewsContract.newsData.TABLE_NAME;
+    private static final String SQL_SOURCE_DELETE_ENTRIES =  "DROP TABLE IF EXISTS " + NewsContract.sourceData.TABLE_NAME;
 
     public NewsSQLiteDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,11 +43,13 @@ public class NewsSQLiteDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
+        sqLiteDatabase.execSQL(SQL_SOURCE_CREATE_ENTRIES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL(SQL_DELETE_ENTRIES);
+        db.execSQL(SQL_SOURCE_DELETE_ENTRIES);
         onCreate(db);
     }
 }
